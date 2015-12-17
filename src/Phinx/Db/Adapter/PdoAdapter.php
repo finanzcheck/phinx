@@ -294,6 +294,9 @@ abstract class PdoAdapter implements AdapterInterface
      */
     public function execute($sql)
     {
+        if (OutputInterface::VERBOSITY_VERBOSE === $this->getOutput()->getVerbosity()) {
+            $this->getOutput()->writeln(' -- sql: ' . $sql);
+        }
         return $this->getConnection()->exec($sql);
     }
 
