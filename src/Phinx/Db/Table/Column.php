@@ -552,7 +552,7 @@ class Column
         return $this->setNull(true);
     }
 
-    public function setNotNullAvailable()
+    public function setNullUnavailable()
     {
         return $this->setNull(false);
     }
