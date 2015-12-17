@@ -297,6 +297,9 @@ abstract class PdoAdapter implements AdapterInterface
         if (OutputInterface::VERBOSITY_VERBOSE === $this->getOutput()->getVerbosity()) {
             $this->getOutput()->writeln(' -- sql: ' . $sql);
         }
+        if ($this->getOption('dryRun')) {
+            return 1;
+        }
         return $this->getConnection()->exec($sql);
     }
 

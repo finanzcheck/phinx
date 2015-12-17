@@ -440,7 +440,10 @@ class Manager
         }
 
         // create an environment instance and cache it
-        $environment = new Environment($name, $this->getConfig()->getEnvironment($name));
+        $environmentConf = $this->getConfig()->getEnvironment($name);
+        $environmentConf['dryRun'] = (isset($this->config['dryRun']) && $this->config['dryRun'])? true: false;
+
+        $environment = new Environment($name, $environmentConf);
         $this->environments[$name] = $environment;
         $environment->setOutput($this->getOutput());
 

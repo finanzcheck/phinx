@@ -44,10 +44,11 @@ class Migrate extends AbstractCommand
         $this->addOption('--environment', '-e', InputOption::VALUE_REQUIRED, 'The target environment');
 
         $this->setName('migrate')
-             ->setDescription('Migrate the database')
-             ->addOption('--target', '-t', InputOption::VALUE_REQUIRED, 'The version number to migrate to')
-             ->addOption('--date', '-d', InputOption::VALUE_REQUIRED, 'The date to migrate to')
-             ->setHelp(
+            ->setDescription('Migrate the database')
+            ->addOption('--target', '-t', InputOption::VALUE_REQUIRED, 'The version number to migrate to')
+            ->addOption('--date', '-d', InputOption::VALUE_REQUIRED, 'The date to migrate to')
+            ->addOption('--dry', null, InputOption::VALUE_NONE, 'use dry run mode')
+            ->setHelp(
 <<<EOT
 The <info>migrate</info> command runs all available migrations, optionally up to a specific version
 
@@ -74,6 +75,7 @@ EOT
         $version     = $input->getOption('target');
         $environment = $input->getOption('environment');
         $date        = $input->getOption('date');
+        $dryRun      = $input->getOption('dry');
 
         if (null === $environment) {
             $environment = $this->getConfig()->getDefaultEnvironment();
@@ -104,6 +106,17 @@ EOT
         if (isset($envOptions['table_suffix'])) {
             $output->writeln('<info>using table suffix</info> ' . $envOptions['table_suffix']);
         }
+
+        $config = $this->getManager()->getConfig();
+        if ($dryRun) {
+            $output->writeln('<info>using dry run mode</info> ');
+            // arrayAccess
+            $config['dryRun'] = true;
+
+        } else {
+            $config['dryRun'] = false;
+        }
+        $this->getManager()->setConfig($config);
 
         // run the migrations
         $start = microtime(true);
