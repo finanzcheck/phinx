@@ -123,7 +123,12 @@ class Environment
         }
 
         // Record it in the database
-        if (!$this->getOptions()['dryRun']) {
+        if (isset($this->getOptions()['dryRun'])) {
+            if (!$this->getOptions()['dryRun']) {
+                $this->getAdapter()->migrated($migration, $direction, date('Y-m-d H:i:s', $startTime), date('Y-m-d H:i:s', time()));
+            }
+        } else {
+            // old way, this is used at tests ;-)
             $this->getAdapter()->migrated($migration, $direction, date('Y-m-d H:i:s', $startTime), date('Y-m-d H:i:s', time()));
         }
     }

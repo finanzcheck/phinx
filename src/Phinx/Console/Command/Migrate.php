@@ -108,15 +108,16 @@ EOT
         }
 
         $config = $this->getManager()->getConfig();
-        if ($dryRun) {
-            $output->writeln('<info>using dry run mode</info> ');
-            // arrayAccess
-            $config['dryRun'] = true;
-
-        } else {
-            $config['dryRun'] = false;
+        if (!is_null($config)) {
+            if ($dryRun) {
+                $output->writeln('<info>using dry run mode</info> ');
+                // arrayAccess
+                $config->offsetSet('dryRun', true);
+            } else {
+                $config->offsetSet('dryRun', false);
+            }
+            $this->getManager()->setConfig($config);
         }
-        $this->getManager()->setConfig($config);
 
         // run the migrations
         $start = microtime(true);
