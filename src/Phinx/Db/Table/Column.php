@@ -546,4 +546,24 @@ class Column
             $this->$method($value);
         }
     }
+
+    public function setNullAvailable()
+    {
+        return $this->setNull(true);
+    }
+
+    public function setNullUnavailable()
+    {
+        return $this->setNull(false);
+    }
+
+    /**
+     * @param string $name
+     * @return Column
+     */
+    public static function createInstance($name = '')
+    {
+        $instance = new Column();
+        return $instance->setName($name);
+    }
 }

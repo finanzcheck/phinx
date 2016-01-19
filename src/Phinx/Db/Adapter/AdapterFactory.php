@@ -28,8 +28,6 @@
  */
 namespace Phinx\Db\Adapter;
 
-use Phinx\Db\Adapter\AdapterInterface;
-
 /**
  * Adapter factory and registry.
  *
@@ -39,6 +37,11 @@ use Phinx\Db\Adapter\AdapterInterface;
  */
 class AdapterFactory
 {
+    const ADAPTER_MYSQL = 'mysql';
+    const ADAPTER_PGSQL = 'pgsql';
+    const ADAPTER_SQLITE = 'sqlite';
+    const ADAPTER_SQLSRV = 'sqlsrv';
+
     /**
      * @var AdapterFactory
      */
@@ -63,10 +66,10 @@ class AdapterFactory
      * @var array
      */
     protected $adapters = array(
-        'mysql'  => 'Phinx\Db\Adapter\MysqlAdapter',
-        'pgsql'  => 'Phinx\Db\Adapter\PostgresAdapter',
-        'sqlite' => 'Phinx\Db\Adapter\SQLiteAdapter',
-        'sqlsrv' => 'Phinx\Db\Adapter\SqlServerAdapter',
+        self::ADAPTER_MYSQL  => 'Phinx\Db\Adapter\MysqlAdapter',
+        self::ADAPTER_PGSQL  => 'Phinx\Db\Adapter\PostgresAdapter',
+        self::ADAPTER_SQLITE => 'Phinx\Db\Adapter\SQLiteAdapter',
+        self::ADAPTER_SQLSRV => 'Phinx\Db\Adapter\SqlServerAdapter',
     );
 
     /**

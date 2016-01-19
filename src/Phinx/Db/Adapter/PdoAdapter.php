@@ -294,6 +294,12 @@ abstract class PdoAdapter implements AdapterInterface
      */
     public function execute($sql)
     {
+        if (OutputInterface::VERBOSITY_VERBOSE === $this->getOutput()->getVerbosity()) {
+            $this->getOutput()->writeln(' -- sql: ' . $sql);
+        }
+        if ($this->getOption('dryRun')) {
+            return 1;
+        }
         return $this->getConnection()->exec($sql);
     }
 
@@ -433,7 +439,9 @@ abstract class PdoAdapter implements AdapterInterface
                       ->save();
             }
         } catch (\Exception $exception) {
-            throw new \InvalidArgumentException('There was a problem creating the schema table: ' . $exception->getMessage());
+            throw new \InvalidArgumentException(
+                'There was a problem creating the schema table: ' . $exception->getMessage()
+            );
         }
     }
 
@@ -477,7 +485,8 @@ abstract class PdoAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function isValidColumnType(Column $column) {
+    public function isValidColumnType(Column $column)
+    {
         return in_array($column->getType(), $this->getColumnTypes());
     }
 }

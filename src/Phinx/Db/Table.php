@@ -357,6 +357,34 @@ class Table
     }
 
     /**
+     * Add a table column if it not already exists.
+     *
+     * Type can be: string, text, integer, float, decimal, datetime, timestamp,
+     * time, date, binary, boolean.
+     *
+     * Valid options can be: limit, default, null, precision or scale.
+     *
+     * @param string|Column $columnName Column Name
+     * @param string $type Column Type
+     * @param array $options Column Options
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
+     * @return Table
+     */
+    public function addColumnIfNotExists($columnName, $type = null, $options = array())
+    {
+        if (null === $this->getAdapter()) {
+            throw new \RuntimeException('An adapter must be specified to add a column.');
+        }
+
+        // check if column already exists
+        if (!$this->getAdapter()->hasColumn($this->getName(), $columnName)) {
+            $this->addColumn($columnName, $type, $options);
+        }
+        return $this;
+    }
+
+    /**
      * Remove a table column.
      *
      * @param string $columnName Column Name
