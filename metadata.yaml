@@ -1,0 +1,19 @@
+type: application
+id: phinx
+name: phinx
+description: |
+    Simple PHP Database Migrations.
+vertical: finanzcheck
+product: creditinterface
+owners:
+    - team.csi@finanzcheck.de
+platform: aws
+tags:
+    - team-csi
+# Security Attributes
+confidentiality: public
+integrity: false
+authenticity: false
+availability: false
+exposure: back-office
+lifecycle: ga
